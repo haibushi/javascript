@@ -6,6 +6,7 @@ function Myclass(){
 }
 var obj = new Myclass;
 console.log(obj);
+asdadasd
 */
 
 
