@@ -9,7 +9,7 @@ console.log(obj);
 asdadasd
 */
 
-
+kkk
 /*
 Function.prototype.bind = function(context){
     console.log(context);
