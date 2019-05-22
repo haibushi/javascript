@@ -3,12 +3,13 @@
 function Myclass(){
     this.name = 'zhangsan';
     return true
-}
+}asdasd
 var obj = new Myclass;
 console.log(obj);
 asdadasd
 */
 
+//这苦呼吁事故的可
 
 /*
 Function.prototype.bind = function(context){
