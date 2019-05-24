@@ -15,7 +15,7 @@ asdadasd
 Function.prototype.bind = function(context){
     console.log(context);
 }
-dddddd
+dddddddsa
 var obj = {name:"zhangsan"}
 var func = function(){
     console.log(this.name);
