@@ -1,5 +1,6 @@
 /*构造方法返回的是字符串  布尔  数值型  null  undefined的话   不影响原来的功能
   如果返回的是对象   这new出来的就是返回的对象
+  这里是a1分支
 function Myclass(){
     this.name = 'zhangsan';
     return true
