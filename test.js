@@ -11,7 +11,7 @@ asdadasd
 
 //这苦呼吁事故的可
 
-/*ZXX
+/*
 Function.prototype.bind = function(context){
     console.log(context);
 }
