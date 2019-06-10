@@ -7,7 +7,7 @@ function Myclass(){
 }asdasd
 var obj = new Myclass;
 console.log(obj);
-a1a1a1a1a1a1
+a1a1a1a1a1a1abcd
 asdadasd
 */
 
