@@ -2,6 +2,7 @@
   如果返回的是对象   这new出来的就是返回的对象
   这里是a1分支
   这里是abcd分支
+  master
 function Myclass(){
     this.name = 'zhangsan';
     return true
