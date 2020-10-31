@@ -7,7 +7,7 @@ function Myclass(){
     this.name = 'zhangsan';
     return true
 }asdasd
-var obj = new Myclass;
+var obj = new Myclass;asdasd
 console.log(obj);
 a1a1a1a1a1a1
 asdadasd
