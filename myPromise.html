@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="table">
+
+  </div>
+</body>
+<script>
+  function MyPromise(fn){
+    this.state = 'pending';
+    this.val = null;
+    const resolve = (val)=>{
+      setTimeout(()=>{
+        this.val = val;
+        this.state = 'fulfilled';
+        this.resolveCallbacks.map(fn=>{
+          fn();
+        })
+      })
+      
+    }
+    const reject = (val)=>{
+      this.val = val;
+      this.state = 'rejected';
+    }
+    this.resolveCallbacks = []
+    
+    fn(resolve,reject)
+  }
+  MyPromise.prototype.then = function(fulfulledcallback = val=>val){
+    if(this.state == 'pending'){
+      return new MyPromise((resolve,reject)=>{
+        this.resolveCallbacks.push(()=>{
+          const x = fulfulledcallback(this.val)
+          resolve(x);
+        })
+      })
+    }
+  }
+
+  MyPromise.all = function(promoseArray){
+    return  new MyPromise((resolve,reject)=>{
+      const resultArray = [];
+      let resultLength = 0; 
+      function promiseResult(index,res){
+        resultArray[index] = res;
+        resultLength++;
+        if(resultLength === promoseArray.length){
+          resolve(resultArray)
+        }
+      }
+      promoseArray.forEach((promise,index) => {
+        promise.then((res)=>{
+          promiseResult(index,res);
+          
+        },err=>{
+          reject(err);
+        })
+      });
+    })
+    
+  }
+  let p1 = function(){
+    return new MyPromise((resolve,reject)=>{
+      resolve(123);
+    })
+  }
+  let p2 = function(){
+    return new MyPromise((resolve,reject)=>{
+      resolve(234);
+    })
+  }
+  // let p = MyPromise.all([p1(),p2()]).then(res=>{
+  //   console.log(res);
+  // })
+  let p = new MyPromise((resolve,reject)=>{
+    setTimeout(function(){
+      resolve('hello')
+    },100)
+  })
+  // .then(res=>{
+  //   console.log(res);
+  //   return 'world'
+  // })
+  .then(res=>{
+    console.log(res);
+  })
+</script>
+</html>
