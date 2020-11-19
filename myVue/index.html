@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style type="text/css">
+        #dragTarget {width:488px;height:70px;padding:10px;border:1px solid #aaaaaa;}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p @click="onChangeHandle">{{msg}}<p>
+    </div>
+
+
+
+</body>
+<script src="./compile.js"></script>
+<script type="text/javascript">
+    class Foo{
+        constructor(a,b){
+            this.a = a;
+            this.b = b;
+        }
+        aa(){
+            let item = 'bb'
+            let bb = this[item];
+            bb && bb();
+        }
+        bb(){
+            console.log(this);
+            console.log(this.a);
+        }
+    }
+
+    let foo = new Foo('a','b');
+    foo.bb();
+    class WVue{
+        constructor(options){
+            this.$options = options
+            this.$data = options.data;
+            this.observe(this.$data);
+            new Compile(options.el,this);
+            if(options.created){
+                options.created.call(this);
+            }
+
+        }
+
+        observe(data){
+            if(!data || typeof data !== 'object'){
+                return ;
+            }
+            Object.keys(data).forEach(key=>{
+                this.defineReactive(data, key, data[key])
+                this.proxyData(key,data[key])
+            })
+        }
+
+        defineReactive(obj,key,val){
+            this.observe(val);
+            const dep = new Dep();
+            Object.defineProperty(obj,key,{
+                get(){
+                    Dep.target && dep.addDep(Dep.target)
+                    return val;
+                },
+                set(newVal){
+                    if(newVal == val){
+                        return ;
+                    }
+                    val = newVal;
+
+                    dep.notify();
+                    // console.log(`${key}属性更新了哦`)
+                }
+            })
+        }
+
+        proxyData(key){
+            Object.defineProperty(this,key,{
+                get(){
+                    return this.$data[key];
+                },
+                set(newVal){
+
+                    if(newVal == this.$data[key]){
+                        return ;
+                    }
+                    this.$data[key] = newVal;
+                }
+            })
+        }
+    }
+
+
+    class Dep{
+        constructor(){
+            this.deps = [];
+        }
+
+        addDep(watcher){
+            this.deps.push(watcher);
+        }
+
+        notify(){
+            if(this.deps.length>0){
+                this.deps.forEach(dep=>{
+                    dep.update();
+                })
+            }
+        }
+    }
+
+    class Watcher{
+        constructor(vm,key,cb){
+
+           this.vm = vm;
+           this.key = key;
+           this.cb = cb;
+           Dep.target = this; 
+           this.vm[this.key]
+           Dep.target = null; 
+
+        }
+        update(){
+            //console.log('属性更新了');
+            this.cb.call(this.vm, this.vm[this.key])
+        }
+
+    }
+    let app = new WVue({
+        el:'#app',
+        data:{
+            msg:'hello',
+            foo:{
+                bar:'13'
+            }
+        },
+        created(){
+            setTimeout(()=>{
+                this.msg='hello world'
+            },2000)
+        },
+        methods:{
+            onChangeHandle(){
+                console.log(123);
+            }
+        }
+    })
+    console.log(app);
+    app.$data.msg = 'world';
+    app.$data.foo.bar = 'world';
+
+</script>
+</html>
