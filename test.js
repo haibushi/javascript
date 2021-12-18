@@ -10,7 +10,7 @@ function Myclass(){
 var obj = new Myclass;asdasd
 console.log(obj);
 a1a1a1a1a1a1
-asdadasd
+asdadasd  123
 */
 
 //这苦呼吁事故的可
