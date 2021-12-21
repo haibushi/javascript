@@ -1,7 +1,7 @@
 git常用命令纪要
 
 ```
-1查看当前分支 test
+1查看当前分支111
   git branch
 2创建分支并且切换过去
 	git checkout -b 'feature/test'
