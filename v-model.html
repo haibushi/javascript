@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script>
+  // let value = {a:1}
+  // let obj = {};
+  // Object.defineProperty(obj,'msg',{
+  //   get: function(){
+  //     console.log('get');
+  //     return value;
+  //   },
+  //   set: function(newVal){
+  //     console.log('set');
+  //     value = newVal;
+  //   },
+  //   enumerable:true,
+  //   configurable: true,
+  // })
+
+  // var aVal = 0;
+  // Object.defineProperty(window,'a',{
+  //   get(){
+  //     aVal++;
+  //     return aVal;
+  //   }
+  // })
+  // console.log('a',a);
+  // console.log('a',a);
+  // console.log('a',a);
+
+
+  let obj = {a:1,info:{a:1}};
+  let hanler = {
+    get(target,props){ 
+      console.log(props);
+      return Reflect.get(target,props);
+    }
+  }
+
+  let obj1 = new Proxy(obj,hanler);
+
+  let arr = [1,2,3];
+  let handleArr = {
+    set(target,key,value){
+      console.log(key,value);
+      target[key] = value;
+    }
+  }
+
+
+  let arr1 = new Proxy(arr,handleArr);
+</script>
+<body>
+  
+</body>
+</html>

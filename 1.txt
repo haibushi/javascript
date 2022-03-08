@@ -1,0 +1,138 @@
+1. v-show 与 v-if 有什么区别？
+  v-if是真正的条件渲染，因为他会确保切换过程中条件内的实践监听器和组件能适当的创建和销毁；
+  也是惰性的，如果初始条件为false，则什么也不做，直到条件为true，才会开始渲染条件块；
+
+  v-show 不管初始条件为什么  都会渲染条件块，只是添加一个display属性来进行切换
+2.怎样理解 Vue 的单向数据流
+  所有的props都使得父子prop之间形成了一个单向数据下行绑定，
+  父级prop的更新会向下流动到子组件，反过来不可以，
+  这样可以防止子组件意外修改父组件的状态，从而导致应用的数据流难以理解
+  每次父组件更新的时候，子组件中所有的prop都会刷新为最新的值，
+  子组件想修改父组件的状态时，只能通过$emit派发一个自定义事件，父组件接受之后，发生状态变化
+
+3: 响应式数据的原理是什么
+### 1.如何理解MVVM原理
+
+​    **概念**：响应式，双向数据绑定  就是MVVM，也就是视图层(view),数据层(model),数据视图层(model-view)的响应式框架
+
+​    **特点** :修改视图层，model层数据发生变化
+
+​              model数据发生变化，直接更新view
+
+### 2.响应式数据的原理是什么
+
+### 3.vue是如何检测数组变化的  
+    push pop shift unshift reverse sort sort
+
+### 4.为何vue采用异步渲染 
+    如果不采用异步更新的话   则每次更新数据组件就会相应的更新
+    为了性能考虑  Vue 会在本轮数据更新之后实现统一的视图更更新
+    Promise
+    MutationObserver
+    setImmediate
+    如果以上都不行则采用 setTimeout。
+### 5.nextTick实现原理
+    在下一次DOM更新循环结束之后执行延迟回调  在修改数据之后立即使用这个方法，获取更新后的 DOM。
+    nextTick 主要使用了宏任务和微任务
+
+### 7.Ajax请求放在那个生命周期中
+   mounted
+
+### 8.何时需要使用beforeDestory？
+  当页面中存在定时器的时候   离开该页面就需要使用该生命周期方法 停止定时器
+
+### 9.Vue父子组件生命周期调用顺序
+  1 父组件  beforeCreate created beforeMount
+  2 子组件 beforeCreate created beforeMount Mounted 
+  3 父组件 mounted
+  4 子组件更新  父beforeUpdate 子beforeUpdate 子updated 父updated
+  5 销毁过程  父beforeDestory 子beforeDestory 子destroyd 父destroyd
+### 10.Vue中computed的特点
+
+  根据data中的值  得到的一个计算属性   
+  该属性具有缓存效果 如果data的值没有变化   要去拿computed的值 就是直接拿缓存数据
+  只有当data属性发生变化的时候  computed的值才会发生相应的更新
+### 11.Watch重的deep:true是如何实现的
+
+### 12.Vue中事件绑定原理
+
+### 13.Vue中的v-html会导致哪些问题
+
+### 14.Vue中的v-if和v-show的区别
+  v-if 如果为false 则不会渲染当前组件的内容 当为true的时候  及时渲染当前组件
+  v-show 则不管值为什么  都会渲染当前组件   如果为false 就是在当前dom上面添加display:none
+
+### 15.为什么v-for和v-if不能连用
+  v-for的优先级比v-if高  所以会限制性v-for  那么则会在每个循环体中都做一个判断  影响性能
+
+### 16.v-model的实现原理及如何自定义v-model
+
+### 17.组件中的data为什么必须是一个函数
+  组件都是需要被复用的   如果data直接是一个对象值  那么这个对象属性的变化  会导致所有组件的更新
+  用一个函数导出一个组件   相当于是一个深拷贝的过程  所以每个组件的数据都是独立的
+
+### 18.Vue组件如何通信
+
+### 19.什么是作用域插槽
+
+### 20.用vnode来描述一个DOM结构
+
+### 21.diff算法的事件复杂度
+
+### 22.建树vue的diff原理
+
+### 23.v-for为什么必须使用key
+
+### 24.描述组件渲染和更新过程
+
+### 25.Vue中模版变异原理
+
+### 26.Vue常见性能优化
+
+### 27.Vue相同逻辑如何抽离
+
+### 28.为什么要使用异步组件
+
+### 29.谈谈你对keep-alive的了解
+  介绍
+    keep-alive 是Vue提供的一个抽象组件，用来对组件进行缓存，
+    由于是一个抽象组件所以vue页面在渲染完成之后不会被渲染成一个Dom组件
+  2：当组件在keep-alive中被切换的时候  会触发 actived deactivated 这两个生命周期函数的执行
+  3 使用 include exclude 来区分组件是否缓存
+    include 表示包含的组件会被缓存
+    exclude 表示除了包含的组件不会被缓存   其他的组件都会被缓存
+  4 在route里面也可以设置meta属性也可以设置keep-alive   
+    export default[
+      {
+        path:'/',
+        name:'home',
+        components:Home,
+        meta:{
+          keepAlive:true //需要被缓存的组件
+        }
+      }
+    ]
+
+### 30.实现hash路由和history路由
+
+### 31.vue-route中导航守卫有哪些
+  导航守卫主要 用来通过跳转或取消的方式守卫导航。
+  导航首位作用 路由页面跳转时候进行登陆验证；路由跳转判断；
+  全局守卫包含 
+    router.beforeEach(全局前置守卫)  
+    router.afterEach(全局后置守卫) 
+    router.beforeResolve(全局解析守卫)
+  组件内部守卫(路由独享守卫)包含
+    beforeRouterEnter
+    beforeRouterUpdate
+    beforeRouterLeave
+
+  路由守卫都包含了三个参数 
+    to  即将要进入的目标路由
+    from  当前导航正要离开的路由
+    next 一定要调用该方法来 resolve 这个钩子。执行效果依赖 next 方法的调用参数。
+### 32.action和mutation的区别
+
+### 33.简述vuex的工作原理
+
+### 34.Vue3.0 有哪些改进呢
